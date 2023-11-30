@@ -9,11 +9,9 @@ package main
 func main() {
 	// Call the connect function to establish a connection
 	connect()
-	defer closeConnection()
 
 	// CRUD application logic goes here
 
-	
 	// insertData()
 	// fetchData()
 	// updateData()
