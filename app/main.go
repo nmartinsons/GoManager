@@ -16,7 +16,7 @@ func main() {
 	// fetchData()
 	// updateData()
 	// deleteData()
-	//displayCompleteTasks
+	//displayCompleteTasks()
 }
 
 func createData() {
