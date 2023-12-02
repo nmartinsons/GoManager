@@ -2,4 +2,7 @@ module app
 
 go 1.21.4
 
-require github.com/mattn/go-sqlite3 v1.14.18
+require (
+	github.com/mattn/go-sqlite3 v1.14.18
+	golang.org/x/text v0.14.0
+)

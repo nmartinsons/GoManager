@@ -6,32 +6,41 @@
 
 package main
 
+type Task struct {
+	title string
+	description string
+	dueDate  int
+	priority int
+	status string
+}
+
 func main() {
 	// Call the connect function to establish a connection
 	connect()
+	
 
 	// CRUD application logic goes here
 
-	// insertData()
-	// fetchData()
-	// updateData()
-	// deleteData()
+	// createTask()
+	// viewTasks()
+	// updateTask()
+	// deleteTask()
 	//displayCompleteTasks()
 }
 
-func createData() {
+func createTask() {
 	
 }
 
-func viewData() {
+func viewTasks() {
 	
 }
 
-func updateData() {
+func updateTask() {
 	
 }
 
-func deleteData() {
+func deleteTask() {
 	
 }
 
