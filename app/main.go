@@ -112,6 +112,7 @@ func viewTasks() {
 
 
 func updateTask() {
+
 	fmt.Print("Enter the title of the task to update: ")
 	var oldTitle string
 	fmt.Scanln(&oldTitle)
@@ -168,7 +169,6 @@ func updateTask() {
 
 	fmt.Println("\nTask updated successfully!")
 }
-
 
 
 func deleteTask() {
