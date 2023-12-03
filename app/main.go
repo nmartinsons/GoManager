@@ -7,10 +7,13 @@
 package main
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -44,34 +47,105 @@ func closeConnection() {
 }
 
 type Task struct {
-	Title       string
-	Description string
-	DueDate     int
-	Priority    int
-	Status      string
+	title       string
+	description string
+	dueDate     string
+	priority    int
+	status      string
 }
 
 func createTask() {
-	
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Printf("Enter the title: ")
+	title, _ := reader.ReadString('\n')
+
+	fmt.Printf("Enter the description: ")
+	description, _ := reader.ReadString('\n')
+
+	fmt.Printf("Enter the due date (format: DD-MM-YYYY): ")
+	dueDateStr, _ := reader.ReadString('\n')
+	dueDate, err := time.Parse("02-01-2006", dueDateStr[:len(dueDateStr)-1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Enter the priority: ")
+	priorityStr, _ := reader.ReadString('\n')
+	priority, err := strconv.Atoi(priorityStr[:len(priorityStr)-1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Enter the status: ")
+	status, _ := reader.ReadString('\n')
+
+	_, err = db.Exec("INSERT INTO tasks (title, description, dueDate, priority, status) VALUES (?, ?, ?, ?, ?)", title, description, dueDate, priority, status)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("\nTask created successfully!")
 }
+
 
 func viewTasks() {
-	
+    rows, err := db.Query("SELECT title, description, dueDate, priority, status FROM tasks")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer rows.Close()
+
+    fmt.Println("\nAll Tasks:")
+    for rows.Next() {
+        var task Task
+        err := rows.Scan(&task.title, &task.description, &task.dueDate, &task.priority, &task.status)
+        if err != nil {
+            log.Fatal(err)
+        }
+		
+
+        fmt.Printf("\nTitle: %sDescription: %sDue Date: %s\nPriority: %d\nStatus: %s\n", task.title, task.description, task.dueDate, task.priority, task.status)
+    }
 }
 
+
 func updateTask() {
+	
 }
 
 
 
 func deleteTask() {
 	
-}
 
-
-func displayCompleteTasks() {
 	
 }
+
+
+func displayCompleteTasks() []Task {
+	rows, err := db.Query("SELECT title, description, dueDate, priority, status FROM tasks WHERE status LIKE 'complete%'")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var completedTasks []Task
+
+	fmt.Println("\nCompleted Tasks:")
+
+	for rows.Next() {
+		var task Task
+		err := rows.Scan(&task.title, &task.description, &task.dueDate, &task.priority, &task.status)
+		if err != nil {
+			log.Fatal(err)
+		}
+		completedTasks = append(completedTasks, task)
+		fmt.Printf("\nTitle: %sDescription: %sDue Date: %s\nPriority: %d\nStatus: %s\n", task.title, task.description, task.dueDate, task.priority, task.status)
+	}
+	return completedTasks
+}
+
 
 
 func main() {
