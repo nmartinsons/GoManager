@@ -70,14 +70,14 @@ func createTask() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Enter the priority: ")
+	fmt.Printf("Enter the priority (format: 1): ")
 	priorityStr, _ := reader.ReadString('\n')
 	priority, err := strconv.Atoi(priorityStr[:len(priorityStr)-1])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Enter the status: ")
+	fmt.Printf("Enter the status (format: complete/incomplete): ")
 	status, _ := reader.ReadString('\n')
 
 	_, err = db.Exec("INSERT INTO tasks (title, description, dueDate, priority, status) VALUES (?, ?, ?, ?, ?)", title, description, dueDate, priority, status)
