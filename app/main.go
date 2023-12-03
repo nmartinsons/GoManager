@@ -187,7 +187,7 @@ func deleteTask() {
             log.Fatal(err)
         }
         return
-	
+
 	}
 
 	_, err = db.Exec("DELETE FROM tasks WHERE title LIKE ?", titleToDelete)
