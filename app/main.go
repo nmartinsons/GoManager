@@ -118,8 +118,6 @@ func updateTask() {
 
 func deleteTask() {
 	
-
-	
 }
 
 
